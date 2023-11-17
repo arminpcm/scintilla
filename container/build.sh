@@ -33,23 +33,23 @@ set_container_variables $platform
 
 if [ "${platform}" == "arm" ]; then
     info "Building for ARM platform..."
-    docker build --build-arg L4T_MAJOR_VERSION=35 \
-                 --build-arg L4T_MINOR_VERSION=2 \
-                 --build-arg L4T_PATCH_VERSION=1 \
-                 --build-arg ZED_SDK_MAJOR=4 \
-                 --build-arg ZED_SDK_MINOR=0 \
-                 --build-arg JETPACK_MAJOR=5 \
-                 --build-arg JETPACK_MINOR=1.0 \
-                 --build-arg L4T_BASE_IMAGE="l4t-jetpack" \
+    docker build --build-arg L4T_MAJOR_VERSION=${L4T_MAJOR_VERSION} \
+                 --build-arg L4T_MINOR_VERSION=${L4T_MINOR_VERSION} \
+                 --build-arg L4T_PATCH_VERSION=${L4T_PATCH_VERSION} \
+                 --build-arg ZED_SDK_MAJOR=${ZED_SDK_MAJOR} \
+                 --build-arg ZED_SDK_MINOR=${ZED_SDK_MINOR} \
+                 --build-arg JETPACK_MAJOR=${JETPACK_MAJOR} \
+                 --build-arg JETPACK_MINOR=${JETPACK_MINOR} \
+                 --build-arg L4T_BASE_IMAGE=${L4T_BASE_IMAGE} \
                  -f arm.dockerfile \
                  -t ${IMAGE_NAME} .
 elif [ "${platform}" == "x86" ]; then
     info "Building for x86 platform..."
-    docker build --build-arg UBUNTU_RELEASE_YEAR=22 \
-                 --build-arg CUDA_MAJOR=12 \
-                 --build-arg CUDA_MINOR=1.0 \
-                 --build-arg ZED_SDK_MAJOR=4 \
-                 --build-arg ZED_SDK_MINOR=0 \
+    docker build --build-arg UBUNTU_RELEASE_YEAR=${UBUNTU_RELEASE_YEAR} \
+                 --build-arg CUDA_MAJOR=${CUDA_MAJOR} \
+                 --build-arg CUDA_MINOR=${CUDA_MINOR} \
+                 --build-arg ZED_SDK_MAJOR=${ZED_SDK_MAJOR} \
+                 --build-arg ZED_SDK_MINOR=${ZED_SDK_MINOR} \
                  -f dev.dockerfile \
                  -t ${IMAGE_NAME} .
 else

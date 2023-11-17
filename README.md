@@ -21,5 +21,25 @@ This should print `aarch64` on the terminal.
 
 ```
 cd container
-./build.sh
+./build.sh <platform>
+# Platform can be either arm or x86
 ```
+
+Note: Currently, L4T docker is supported through QEMU. Also x86 docker image is based on Cuda12 and Ubuntu 22.04.
+
+Settings for the docker build process (OS version, Cuda version, etc.) are maintained in [settings.sh](container/settings.sh) file.
+
+### Using the docker images
+You will have multiple scripts at your disposal to start, stop, and dive into an already started docker container:
+
+```
+cd container
+
+# To start a docker image (arm or x86)
+./start <platform>
+# To go inside a docker running docker container (arm or x86)
+./into <platform>
+# To stop a docker image (arm or x86)
+./stop <platform>
+```
+
