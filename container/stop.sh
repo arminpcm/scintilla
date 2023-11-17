@@ -11,10 +11,25 @@
 #
 ################################################################################
 
+source settings.sh
 source ../scripts/common_functions.sh
 print_header
 
-CONTAINER_NAME="scintilla"
+# Check args
+check_args() {
+    if [ "$#" -ne 1 ]; then
+        error "Usage: $0 <platform>, platform can be arm or x86"
+        exit 1
+    fi
+}
+
+set -e
+
+check_args $#
+
+platform="$1"
+
+set_container_variables $platform
 
 # Check if the container is running
 if docker ps -q --filter "name=${CONTAINER_NAME}" | grep -q .; then

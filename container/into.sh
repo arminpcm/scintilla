@@ -11,11 +11,31 @@
 #
 ################################################################################
 
+source settings.sh
 source ../scripts/common_functions.sh
 print_header
 
+
+# Check args
+check_args() {
+    if [ "$#" -ne 1 ]; then
+        error "Usage: $0 <platform>, platform can be arm or x86"
+        exit 1
+    fi
+}
+
 set -e
 
-CONTAINER_NAME="scintilla"
+check_args $#
 
-docker exec -it ${CONTAINER_NAME} /bin/bash
+platform="$1"
+
+set_container_variables $platform
+
+if [ "${platform}" == "arm" ]; then
+    info "Building for ARM platform..."
+    docker exec -it ${CONTAINER_NAME} /bin/bash
+else
+    error "Unsupported platform. Only 'arm' is supported for now."
+    exit 1
+fi
