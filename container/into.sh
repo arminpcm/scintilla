@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# Title: Setup the host computer for development
+# Title: Dive intot the running docker image
 # 
 # Copyright (c) 2023 Scintilla. All rights reserved.
 #
@@ -14,13 +14,8 @@
 source ../scripts/common_functions.sh
 print_header
 
-set -e 
+set -e
 
-check_root
+CONTAINER_NAME="scintilla"
 
-# Update package list
-apt update
-
-# Install QEMU to simulate ARM for development
-apt install -y qemu
-info "QEMU has been successfully installed."
+docker exec -it ${CONTAINER_NAME} /bin/bash
