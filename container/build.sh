@@ -47,7 +47,7 @@ elif [ "${platform}" == "x86" ]; then
     info "Building for x86 platform..."
     docker build --build-arg UBUNTU_RELEASE_YEAR=22 \
                  --build-arg CUDA_MAJOR=12 \
-                 --build-arg CUDA_MINOR=1 \
+                 --build-arg CUDA_MINOR=1.0 \
                  --build-arg ZED_SDK_MAJOR=4 \
                  --build-arg ZED_SDK_MINOR=0 \
                  -f dev.dockerfile \
