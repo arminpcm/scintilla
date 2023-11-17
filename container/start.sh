@@ -44,7 +44,17 @@ if [ "${platform}" == "arm" ]; then
                 -v ${SCINTILLA_ROOT}:/sintilla \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
+elif [ "${platform}" == "x86" ]; then
+    info "Building for x86 platform..."
+    docker run \
+                --gpus all \
+                --privileged \
+                --platform="${PLATFORM}" \
+                --hostname ${CONTAINER_NAME} \
+                -v ${SCINTILLA_ROOT}:/sintilla \
+                --name ${CONTAINER_NAME} \
+                -itd ${IMAGE_NAME}
 else
-    error "Unsupported platform. Only 'arm' is supported for now."
+    error "Unsupported platform. Only 'arm' and 'x86' are supported."
     exit 1
 fi

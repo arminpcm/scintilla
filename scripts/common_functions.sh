@@ -92,3 +92,27 @@ print_header() {
     echo "     \`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'"
     echo -e "${RESET}"
 }
+
+# Function to set main variables based on input flag
+set_container_variables() {
+    local platform="$1"
+
+    case "${platform}" in
+        arm)
+            IMAGE_NAME="${L4T_IMAGE_NAME}"
+            CONTAINER_NAME="${L4T_CONTAINER_NAME}"
+            HOSTNAME="${L4T_HOSTNAME}"
+            PLATFORM="${L4T_PLATFORM}"
+            ;;
+        x86)
+            IMAGE_NAME="${DEV_IMAGE_NAME}"
+            CONTAINER_NAME="${DEV_CONTAINER_NAME}"
+            HOSTNAME="${DEV_HOSTNAME}"
+            PLATFORM="${DEV_PLATFORM}"
+            ;;
+        *)
+            error "Invalid platform. Supported platforms: arm, x86."
+            exit 1
+            ;;
+    esac
+}
