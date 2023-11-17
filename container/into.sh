@@ -35,7 +35,10 @@ set_container_variables $platform
 if [ "${platform}" == "arm" ]; then
     info "Building for ARM platform..."
     docker exec -it ${CONTAINER_NAME} /bin/bash
+elif [ "${platform}" == "x86" ]; then
+    info "Building for x86 platform..."
+    docker exec -it ${CONTAINER_NAME} /bin/bash
 else
-    error "Unsupported platform. Only 'arm' is supported for now."
+    error "Unsupported platform. Only 'arm' and 'x86' are supported."
     exit 1
 fi

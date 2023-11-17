@@ -8,43 +8,35 @@
 #
 ################################################################################
 
-# Base docker: https://ngc.nvidia.com/catalog/containers/nvidia:l4t-base
+ARG UBUNTU_RELEASE_YEAR
+ARG CUDA_MAJOR
+ARG CUDA_MINOR
 
-ARG L4T_MAJOR_VERSION
-ARG L4T_MINOR_VERSION
-ARG L4T_PATCH_VERSION
-ARG L4T_BASE_IMAGE
+FROM nvidia/cudagl:${CUDA_MAJOR}.${CUDA_MINOR}-devel-ubuntu${UBUNTU_RELEASE_YEAR}.04
 
-FROM nvcr.io/nvidia/${L4T_BASE_IMAGE}:r${L4T_MAJOR_VERSION}.${L4T_MINOR_VERSION}.${L4T_PATCH_VERSION}
-
-ARG L4T_MAJOR_VERSION
-ARG L4T_MINOR_VERSION
-ARG L4T_PATCH_VERSION
+ARG UBUNTU_RELEASE_YEAR
+ARG CUDA_MAJOR
+ARG CUDA_MINOR
 ARG ZED_SDK_MAJOR
 ARG ZED_SDK_MINOR
 
-#This environment variable is needed to use the streaming features on Jetson inside a container
-ENV LOGNAME root
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update -y || true ; apt-get install --no-install-recommends lsb-release wget less zstd udev sudo apt-transport-https -y && \
-    echo "# R${L4T_MAJOR_VERSION} (release), REVISION: ${L4T_MINOR_VERSION}.${L4T_PATCH_VERSION}" > /etc/nv_tegra_release ; \
-    wget -q --no-check-certificate -O ZED_SDK_Linux.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/l4t${L4T_MAJOR_VERSION}.${L4T_MINOR_VERSION}/jetsons && \
-    chmod +x ZED_SDK_Linux.run ; ./ZED_SDK_Linux.run silent skip_tools skip_drivers && \
-    rm -rf /usr/local/zed/resources/* \
-    rm -rf ZED_SDK_Linux.run && \
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}compute,video,utility,graphics
+
+RUN echo "Europe/Paris" > /etc/localtime ; echo "CUDA Version ${CUDA_MAJOR}.${CUDA_MINOR}.0" > /usr/local/cuda/version.txt
+
+# Setup the ZED SDK
+RUN apt-get update -y || true ; apt-get install --no-install-recommends lsb-release wget less udev zstd sudo build-essential cmake python3 python3-pip libpng-dev libgomp1 -y ; \
+    #python3 -m pip install --upgrade pip ; \
+    python3 -m pip install numpy opencv-python pyopengl ; \
+    wget -q -O ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/cu${CUDA_MAJOR}${CUDA_MINOR%.*}/ubuntu${UBUNTU_RELEASE_YEAR} && \
+    chmod +x ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run ; ./ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run silent skip_cuda && \
+    ln -sf /lib/x86_64-linux-gnu/libusb-1.0.so.0 /usr/lib/x86_64-linux-gnu/libusb-1.0.so && \
+    rm ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run && \
     rm -rf /var/lib/apt/lists/*
 
-# ZED Python API
-RUN apt-get update -y || true ; apt-get install --no-install-recommends python3 python3-pip python3-dev python3-setuptools build-essential -y && \ 
-    wget download.stereolabs.com/zedsdk/pyzed -O /usr/local/zed/get_python_api.py && \
-    python3 /usr/local/zed/get_python_api.py && \
-    python3 -m pip install cython wheel && \
-    python3 -m pip install numpy pyopengl *.whl && \
-    apt-get remove --purge build-essential -y && apt-get autoremove -y && \
-    rm *.whl ; rm -rf /var/lib/apt/lists/*
-
-#This symbolic link is needed to use the streaming features on Jetson inside a container
-RUN ln -sf /usr/lib/aarch64-linux-gnu/tegra/libv4l2.so.0 /usr/lib/aarch64-linux-gnu/libv4l2.so
+# Make some tools happy
+RUN mkdir -p /root/Documents/ZED/
 
 # Create a user named "docker" without a password
 RUN useradd -m docker
