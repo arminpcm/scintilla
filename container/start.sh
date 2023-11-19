@@ -11,8 +11,8 @@
 #
 ################################################################################
 
-source settings.sh
-source ../scripts/common_functions.sh
+source container/settings.sh
+source scripts/common_functions.sh
 print_header
 
 # Check args

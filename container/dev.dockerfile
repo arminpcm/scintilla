@@ -49,7 +49,6 @@ RUN apt update -y && apt install -y locales locales-all ; \
     /bin/bash -c "source /opt/ros/iron/setup.bash" ; \
     rm -rf /var/lib/apt/lists/*
 
-
 # Create a user named "docker" without a password
 RUN useradd -m docker
 # Allow the "docker" user to use sudo without a password
@@ -58,3 +57,6 @@ RUN echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER docker
 CMD ["/bin/bash"]
 WORKDIR /scintilla
+
+COPY scripts/.prompt.sh /home/.prompt.sh
+RUN /bin/bash -c "source /home/.prompt.sh" && export PS1="$(__mkps1)"
