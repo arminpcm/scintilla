@@ -41,7 +41,7 @@ if [ "${platform}" == "arm" ]; then
                 --privileged \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
-                -v ${SCINTILLA_ROOT}:/sintilla \
+                -v ${SCINTILLA_ROOT}:/scintilla \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 elif [ "${platform}" == "x86" ]; then
@@ -51,7 +51,7 @@ elif [ "${platform}" == "x86" ]; then
                 --privileged \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
-                -v ${SCINTILLA_ROOT}:/sintilla \
+                -v ${SCINTILLA_ROOT}:/scintilla \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 else
