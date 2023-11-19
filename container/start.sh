@@ -35,7 +35,7 @@ SCINTILLA_ROOT=''
 get_script_parent_directory SCINTILLA_ROOT
 
 if [ "${platform}" == "arm" ]; then
-    info "Building for ARM platform..."
+    info "Starting ARM docker..."
     docker run \
                 --gpus all \
                 --privileged \
@@ -45,7 +45,7 @@ if [ "${platform}" == "arm" ]; then
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 elif [ "${platform}" == "x86" ]; then
-    info "Building for x86 platform..."
+    info "Starting x86 docker..."
     docker run \
                 --gpus all \
                 --privileged \
