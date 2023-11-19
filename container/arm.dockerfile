@@ -26,7 +26,7 @@ ARG ZED_SDK_MINOR
 #This environment variable is needed to use the streaming features on Jetson inside a container
 ENV LOGNAME root
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update -y || true ; apt-get install --no-install-recommends lsb-release wget less zstd udev sudo apt-transport-https -y && \
+RUN apt update -y || true ; apt install --no-install-recommends lsb-release wget less zstd udev sudo apt-transport-https -y && \
     echo "# R${L4T_MAJOR_VERSION} (release), REVISION: ${L4T_MINOR_VERSION}.${L4T_PATCH_VERSION}" > /etc/nv_tegra_release ; \
     wget -q --no-check-certificate -O ZED_SDK_Linux.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/l4t${L4T_MAJOR_VERSION}.${L4T_MINOR_VERSION}/jetsons && \
     chmod +x ZED_SDK_Linux.run ; ./ZED_SDK_Linux.run silent skip_tools skip_drivers && \
@@ -35,16 +35,31 @@ RUN apt-get update -y || true ; apt-get install --no-install-recommends lsb-rele
     rm -rf /var/lib/apt/lists/*
 
 # ZED Python API
-RUN apt-get update -y || true ; apt-get install --no-install-recommends python3 python3-pip python3-dev python3-setuptools build-essential -y && \ 
+RUN apt update -y || true ; apt install --no-install-recommends python3 python3-pip python3-dev python3-setuptools build-essential -y && \ 
     wget download.stereolabs.com/zedsdk/pyzed -O /usr/local/zed/get_python_api.py && \
     python3 /usr/local/zed/get_python_api.py && \
     python3 -m pip install cython wheel && \
     python3 -m pip install numpy pyopengl *.whl && \
-    apt-get remove --purge build-essential -y && apt-get autoremove -y && \
+    apt remove --purge build-essential -y && apt autoremove -y && \
     rm *.whl ; rm -rf /var/lib/apt/lists/*
 
 #This symbolic link is needed to use the streaming features on Jetson inside a container
 RUN ln -sf /usr/lib/aarch64-linux-gnu/tegra/libv4l2.so.0 /usr/lib/aarch64-linux-gnu/libv4l2.so
+
+# Install ROS2
+RUN apt update -y && apt install -y locales locales-all ; \
+    locale-gen en_US en_US.UTF-8 ; \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 ; \
+    export LANG=en_US.UTF-8 ; \
+    apt install -y software-properties-common ; \
+    add-apt-repository universe ; \
+    apt update -y && apt install -y curl ; \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg ; \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null ; \
+    apt update -y && apt install -y ros-dev-tools ; \
+    apt update -y && apt upgrade -y && apt install -y ros-iron-desktop ; \
+    /bin/bash -c "source /opt/ros/iron/setup.bash" ; \
+    rm -rf /var/lib/apt/lists/*
 
 # Create a user named "docker" without a password
 RUN useradd -m docker
