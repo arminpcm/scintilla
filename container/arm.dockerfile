@@ -69,3 +69,6 @@ RUN echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER docker
 CMD ["/bin/bash"]
 WORKDIR /scintilla
+
+COPY scripts/.prompt.sh /home/.prompt.sh
+RUN /bin/bash -c "source /home/.prompt.sh" && export PS1="$(__mkps1)"

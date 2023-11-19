@@ -11,8 +11,8 @@
 #
 ################################################################################
 
-source settings.sh
-source ../scripts/common_functions.sh
+source container/settings.sh
+source scripts/common_functions.sh
 print_header
 
 # Check args
@@ -41,7 +41,7 @@ if [ "${platform}" == "arm" ]; then
                  --build-arg JETPACK_MAJOR=${JETPACK_MAJOR} \
                  --build-arg JETPACK_MINOR=${JETPACK_MINOR} \
                  --build-arg L4T_BASE_IMAGE=${L4T_BASE_IMAGE} \
-                 -f arm.dockerfile \
+                 -f container/arm.dockerfile \
                  -t ${IMAGE_NAME} .
 elif [ "${platform}" == "x86" ]; then
     info "Building for x86 platform..."
@@ -50,7 +50,7 @@ elif [ "${platform}" == "x86" ]; then
                  --build-arg CUDA_MINOR=${CUDA_MINOR} \
                  --build-arg ZED_SDK_MAJOR=${ZED_SDK_MAJOR} \
                  --build-arg ZED_SDK_MINOR=${ZED_SDK_MINOR} \
-                 -f dev.dockerfile \
+                 -f container/dev.dockerfile \
                  -t ${IMAGE_NAME} .
 else
     error "Unsupported platform. Only 'arm' and 'x86' are supported."

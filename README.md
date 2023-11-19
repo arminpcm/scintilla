@@ -7,7 +7,7 @@ Start with setting up your host compuer. Currently, we are supporting Ubuntu 22.
 ### Prepare host
 ```
 cd scripts
-sudo ./dev_setup.sh
+sudo ./container/dev_setup.sh
 ```
 
 To ensure emulation is working, try the following command:
@@ -20,8 +20,7 @@ This should print `aarch64` on the terminal.
 ### Build docker image
 
 ```
-cd container
-./build.sh <platform>
+./container/build.sh <platform>
 # Platform can be either arm or x86
 ```
 
@@ -33,13 +32,11 @@ Settings for the docker build process (OS version, Cuda version, etc.) are maint
 You will have multiple scripts at your disposal to start, stop, and dive into an already started docker container:
 
 ```
-cd container
-
 # To start a docker image (arm or x86)
-./start <platform>
+./container/start <platform>
 # To go inside a docker running docker container (arm or x86)
-./into <platform>
+./container/into <platform>
 # To stop a docker image (arm or x86)
-./stop <platform>
+./container/stop <platform>
 ```
 

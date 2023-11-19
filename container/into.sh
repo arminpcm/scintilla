@@ -11,8 +11,8 @@
 #
 ################################################################################
 
-source settings.sh
-source ../scripts/common_functions.sh
+source container/settings.sh
+source scripts/common_functions.sh
 print_header
 
 
@@ -33,11 +33,11 @@ platform="$1"
 set_container_variables $platform
 
 if [ "${platform}" == "arm" ]; then
-    info "Building for ARM platform..."
-    docker exec -it ${CONTAINER_NAME} /bin/bash
+    info "Attaching ARM docker..."
+    docker exec -it ${CONTAINER_NAME} /bin/bash -c 'echo "source /home/.prompt.sh && export PS1=\"\$(__mkps1)\"" >> ~/.bashrc && /bin/bash'
 elif [ "${platform}" == "x86" ]; then
-    info "Building for x86 platform..."
-    docker exec -it ${CONTAINER_NAME} /bin/bash
+    info "Attaching x86 docker..."
+    docker exec -it ${CONTAINER_NAME} /bin/bash -c 'echo "source /home/.prompt.sh && export PS1=\"\$(__mkps1)\"" >> ~/.bashrc && /bin/bash'
 else
     error "Unsupported platform. Only 'arm' and 'x86' are supported."
     exit 1
