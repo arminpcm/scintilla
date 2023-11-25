@@ -26,6 +26,7 @@ ARG ZED_SDK_MINOR
 #This environment variable is needed to use the streaming features on Jetson inside a container
 ENV LOGNAME root
 ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
 RUN apt update -y || true ; apt install --no-install-recommends lsb-release wget less zstd udev sudo apt-transport-https -y && \
     echo "# R${L4T_MAJOR_VERSION} (release), REVISION: ${L4T_MINOR_VERSION}.${L4T_PATCH_VERSION}" > /etc/nv_tegra_release ; \
     wget -q --no-check-certificate -O ZED_SDK_Linux.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/l4t${L4T_MAJOR_VERSION}.${L4T_MINOR_VERSION}/jetsons && \
@@ -47,28 +48,38 @@ RUN apt update -y || true ; apt install --no-install-recommends python3 python3-
 RUN ln -sf /usr/lib/aarch64-linux-gnu/tegra/libv4l2.so.0 /usr/lib/aarch64-linux-gnu/libv4l2.so
 
 # Install ROS2
-RUN apt update -y && apt install -y locales locales-all ; \
-    locale-gen en_US en_US.UTF-8 ; \
-    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 ; \
-    export LANG=en_US.UTF-8 ; \
-    apt install -y software-properties-common ; \
-    add-apt-repository universe ; \
-    apt update -y && apt install -y curl ; \
-    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg ; \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null ; \
-    apt update -y && apt install -y ros-dev-tools ; \
-    apt update -y && apt upgrade -y && apt install -y ros-iron-desktop ; \
-    /bin/bash -c "source /opt/ros/iron/setup.bash" ; \
+RUN apt update -y && apt install -y locales locales-all && \
+    locale-gen en_US en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8 && \
+    apt install -y software-properties-common && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    add-apt-repository universe && \
+    apt update -y && apt install -y curl && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
+    apt update -y && apt install -y ros-dev-tools && \
+    apt update -y && apt upgrade -y && apt install -y ros-iron-desktop && \
+    source /opt/ros/iron/setup.bash && \
     rm -rf /var/lib/apt/lists/*
+
+# Add ZED ROS2 wrapper to the docker
+COPY thirdparty/zed-ros2-wrapper.zip /thirdparty/zed-ros2-wrapper.zip
+RUN apt update -y && apt install -y unzip && \
+    cd /thirdparty && \
+    mkdir -p ros2_ws/src/ && \
+    unzip zed-ros2-wrapper.zip -d ros2_ws/src/zed-ros2-wrapper && \
+    rm zed-ros2-wrapper.zip
 
 # Create a user named "docker" without a password
 RUN useradd -m docker
 # Allow the "docker" user to use sudo without a password
 RUN echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+COPY scripts/.prompt.sh /home/.prompt.sh
+COPY container/entrypoint.sh /home/entrypoint.sh
+
 USER docker
+ENTRYPOINT ["/home/entrypoint.sh"]
 CMD ["/bin/bash"]
 WORKDIR /scintilla
-
-COPY scripts/.prompt.sh /home/.prompt.sh
-RUN /bin/bash -c "source /home/.prompt.sh" && export PS1="$(__mkps1)"

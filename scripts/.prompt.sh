@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+################################################################################
+# Title: Common shell functions that can be used by other scripts
+# 
+# Copyright (c) 2023 Scintilla. All rights reserved.
+#
+# The contents of this script are proprietary and confidential. Unauthorized
+# reproduction, distribution, or disclosure of this material is strictly
+# prohibited without the express written permission of Scintilla.
+#
+################################################################################
+
 # Different functions generate different parts (segments) of the PS1 prompt.
 # Each function should leave the colors in a clean state (e.g. call reset if they changed any colors).
 

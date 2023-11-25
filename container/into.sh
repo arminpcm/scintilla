@@ -34,10 +34,10 @@ set_container_variables $platform
 
 if [ "${platform}" == "arm" ]; then
     info "Attaching ARM docker..."
-    docker exec -it ${CONTAINER_NAME} /bin/bash -c 'echo "source /home/.prompt.sh && export PS1=\"\$(__mkps1)\"" >> ~/.bashrc && /bin/bash'
+    docker exec -it ${CONTAINER_NAME} /bin/bash
 elif [ "${platform}" == "x86" ]; then
     info "Attaching x86 docker..."
-    docker exec -it ${CONTAINER_NAME} /bin/bash -c 'echo "source /home/.prompt.sh && export PS1=\"\$(__mkps1)\"" >> ~/.bashrc && /bin/bash'
+    docker exec -it ${CONTAINER_NAME} /bin/bash
 else
     error "Unsupported platform. Only 'arm' and 'x86' are supported."
     exit 1

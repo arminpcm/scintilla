@@ -31,9 +31,6 @@ platform="$1"
 
 set_container_variables $platform
 
-SCINTILLA_ROOT=''
-get_script_parent_directory SCINTILLA_ROOT
-
 if [ "${platform}" == "arm" ]; then
     info "Starting ARM docker..."
     docker run \
@@ -58,3 +55,5 @@ else
     error "Unsupported platform. Only 'arm' and 'x86' are supported."
     exit 1
 fi
+
+docker exec ${CONTAINER_NAME} bash -c '/home/entrypoint.sh'
