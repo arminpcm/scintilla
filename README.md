@@ -18,9 +18,10 @@ docker run --rm --platform=linux/arm64 -t arm64v8/ubuntu uname -m
 
 This should print `aarch64` on the terminal.
 
-For ease of use, you can source `scriots/aliases.sh` in your bashrc file:
+For ease of use, you can source `scripts/aliases.sh` in your bashrc file:
 ```
 source $SCINTILLA_ROOT/scripts/aliases.sh
+source ~/.bashrc
 ```
 
 ### Build docker image
@@ -50,13 +51,11 @@ You will have multiple scripts at your disposal to start, stop, and dive into an
 ### Building ROS2 package for Stereo Zed
 
 ```
-sudo chown -R docker /thirdparty/*
-cd /thirdparty/ros2_ws
-source /opt/ros/foxy/setup.bash
-sudo rosdep init
-rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro foxy -r -y
-colcon build --symlink-install --cmake-args=-DCMAKE_BUILD_TYPE=Release
-echo "source /thirdparty/zed-ros2-wrapper/install/local_setup.bash" >> ~/.bashrc
+./scripts/build_zed_wrapper.sh
 source ~/.bashrc
+```
+
+Now launch the ros2 nodes:
+```
+ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
 ```

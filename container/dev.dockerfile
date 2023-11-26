@@ -25,14 +25,14 @@ SHELL ["/bin/bash", "-c"]
 ENV NVIDIA_DRIVER_CAPABILITIES \
     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}compute,video,utility
 
-RUN echo "America/Toronto" > /etc/localtime ; echo "CUDA Version ${CUDA_MAJOR}.${CUDA_MINOR}" > /usr/local/cuda/version.txt
+RUN echo "America/Toronto" > /etc/localtime && echo "CUDA Version ${CUDA_MAJOR}.${CUDA_MINOR}" > /usr/local/cuda/version.txt
 RUN export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64/"
 
 # Setup the ZED SDK
-RUN apt update -y || true ; apt install --no-install-recommends lsb-release wget less udev sudo zstd build-essential cmake python3 python3-pip libpng-dev libgomp1 -y ; \
-    python3 -m pip install numpy opencv-python ; \
+RUN apt update -y || true && apt install --no-install-recommends lsb-release wget less udev sudo zstd build-essential cmake python3 python3-pip libpng-dev libgomp1 -y && \
+    python3 -m pip install numpy opencv-python && \
     wget -q -O ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/cu${CUDA_MAJOR}${CUDA_MINOR%.*}/ubuntu${UBUNTU_RELEASE_YEAR} && \
-    chmod +x ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run ; ./ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run -- silent skip_tools skip_cuda && \
+    chmod +x ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run && ./ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run -- silent skip_tools skip_cuda && \
     ln -sf /lib/x86_64-linux-gnu/libusb-1.0.so.0 /usr/lib/x86_64-linux-gnu/libusb-1.0.so && \
     rm ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run && \
     rm -rf /var/lib/apt/lists/*
@@ -69,6 +69,7 @@ RUN echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 COPY scripts/.prompt.sh /home/.prompt.sh
 COPY container/entrypoint.sh /home/entrypoint.sh
 
+RUN usermod -a -G video docker
 USER docker
 CMD ["/bin/bash"]
 WORKDIR /scintilla

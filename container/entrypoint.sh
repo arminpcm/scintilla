@@ -12,6 +12,6 @@
 ################################################################################
 
 # Source ROS2
-echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
 echo "source /home/.prompt.sh && export PS1=\"\$(__mkps1)\"" >> ~/.bashrc
 source ~/.bashrc

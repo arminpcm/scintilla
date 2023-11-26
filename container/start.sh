@@ -36,9 +36,13 @@ if [ "${platform}" == "arm" ]; then
     docker run \
                 --gpus all \
                 --privileged \
+                -v /dev/bus/usb:/dev/bus/usb \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
                 -v ${SCINTILLA_ROOT}:/scintilla \
+                --runtime nvidia \
+                -e DISPLAY \
+                -v /tmp/.X11-unix/:/tmp/.X11-unix \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 elif [ "${platform}" == "x86" ]; then
@@ -46,9 +50,13 @@ elif [ "${platform}" == "x86" ]; then
     docker run \
                 --gpus all \
                 --privileged \
+                -v /dev/bus/usb:/dev/bus/usb \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
                 -v ${SCINTILLA_ROOT}:/scintilla \
+                --runtime nvidia \
+                -e DISPLAY \
+                -v /tmp/.X11-unix/:/tmp/.X11-unix \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 else
