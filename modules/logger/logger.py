@@ -15,13 +15,14 @@ import signal
 import argparse
 import yaml
 from datetime import datetime
+from pathlib import Path
 import threading
 from typing import List, Dict, Union
 
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-from common.oslibs import info, error
+from common.oslibs import info, error, get_environment_variable
 
 class UserDescriptionPublisherNode(Node):
     def __init__(
@@ -38,7 +39,7 @@ class UserDescriptionPublisherNode(Node):
             config (dict): Configuration settings loaded from YAML file.
             condition (threading.Condition): Condition object for synchronization.
             operator_name (str): Name of the operator.
-            description (str): Description of the rosbag collection.
+            description (str): Description of the rosmcap collection.
 
         Returns:
             None
@@ -86,26 +87,29 @@ def record_topics(config: Dict[str, Union[str, List[str], float, int]], conditio
         None
     """
     with condition:
+        # Configure the log file name
         base_file_name = config.get('base_file_name', 'output')
         log_directory = config.get('log_directory', 'output')
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        bag_file = f"{log_directory}/{base_file_name}_{timestamp}.bag"
+        root_dir = Path(get_environment_variable("SCINTILLA_ROOT"))
+
+        mcap_file = root_dir / log_directory / f"{base_file_name}_{timestamp}.mcap"
 
         topics = config.get('recorded_topics', [])
         if not topics:
             error("No topics specified in the configuration file. Exiting.")
             sys.exit(1)
 
-        command = ['ros2', 'bag', 'record', '--output', bag_file]
+        command = ['ros2', 'mcap', 'record', '-s', 'mcap', '--output', mcap_file]
         command.extend(topics)
 
-        bag_process = subprocess.Popen(command)
-        info(f"Recording topics {topics} to {bag_file}. Press Ctrl+C to stop recording.")
+        mcap_process = subprocess.Popen(command)
+        info(f"Recording topics {topics} to {mcap_file}. Press Ctrl+C to stop recording.")
 
     try:
-        bag_process.wait()
+        mcap_process.wait()
     except KeyboardInterrupt:
-        stop_record(bag_process)
+        stop_record(mcap_process)
 
 
 def stop_record(process: subprocess.Popen) -> None:
@@ -126,17 +130,17 @@ def stop_record(process: subprocess.Popen) -> None:
     process.communicate()
 
 
-def show_bag_info(bag_file: str) -> None:
+def show_mcap_info(mcap_file: str) -> None:
     """
-    Display information about a recorded rosbag.
+    Display information about a recorded rosmcap.
 
     Args:
-        bag_file (str): Path to the recorded rosbag file.
+        mcap_file (str): Path to the recorded rosmcap file.
 
     Returns:
         None
     """
-    subprocess.run(['ros2', 'bag', 'info', bag_file])
+    subprocess.run(['ros2', 'mcap', 'info', mcap_file])
 
 
 def load_config(config_file: str) -> Dict[str, Union[str, List[str], float, int]]:
@@ -206,7 +210,7 @@ if __name__ == "__main__":
 
     rclpy.init()
     operator_name = input("Enter your name as the operator: ")
-    description = input("Enter a description of what the rosbag is being collected for: ")
+    description = input("Enter a description of what the rosmcap is being collected for: ")
 
     condition = threading.Condition()
     user_description_node = UserDescriptionPublisherNode(config, condition, operator_name, description)

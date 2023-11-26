@@ -1,5 +1,5 @@
 # Base file name for recorded bags
-base_file_name: "robot_log_"
+base_file_name: "robot_log"
 log_directory: "data/logs/"
 
 # List of topics to be recorded
