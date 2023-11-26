@@ -27,7 +27,7 @@ source ~/.bashrc
 ### Build docker image
 
 ```
-./container/build.sh <platform>
+$SCINTILLA_ROOT/container/build.sh <platform>
 # Platform can be either arm or x86
 # Or use `build` or `builda` that is set using aliases
 ```
@@ -41,29 +41,22 @@ You will have multiple scripts at your disposal to start, stop, and dive into an
 
 ```
 # To start a docker image (arm or x86)
-./container/start <platform>
+$SCINTILLA_ROOT/container/start <platform>
 # To go inside a docker running docker container (arm or x86)
-./container/into <platform>
+$SCINTILLA_ROOT/container/into <platform>
 # To stop a docker image (arm or x86)
-./container/stop <platform>
+$SCINTILLA_ROOT/container/stop <platform>
 ```
 
 ### Building ROS2 package for Stereo Zed
 
 ```
-./scripts/build_zed_wrapper.sh
+$SCINTILLA_ROOT/scripts/build_zed_wrapper.sh
 source ~/.bashrc
 ```
 
 Now launch the ros2 nodes:
 ```
+source /opt/ros/iron/setup.bash
 ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
 ```
-
-# Things I need to do:
-1. Add modules to python path:
-```
-export PYTHONPATH=$PYTHONPATH:$SCINTILLA_ROOT/modules
-```
-2. Add SCINTILLA_ROOT to the docker
-3. Make sure logs are captured in the right place

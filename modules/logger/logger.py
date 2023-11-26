@@ -100,7 +100,7 @@ def record_topics(config: Dict[str, Union[str, List[str], float, int]], conditio
             error("No topics specified in the configuration file. Exiting.")
             sys.exit(1)
 
-        command = ['ros2', 'mcap', 'record', '-s', 'mcap', '--output', mcap_file]
+        command = ['ros2', 'bag', 'record', '-s', 'mcap', '--output', mcap_file]
         command.extend(topics)
 
         mcap_process = subprocess.Popen(command)
@@ -227,6 +227,10 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-    thread.join()
-    if rclpy.ok():
-        rclpy.shutdown()
+    try:
+        # Join but wait for 5 minutes before timing out
+        thread.join(timeout=300)
+        if rclpy.ok():
+            rclpy.shutdown()
+    except:
+        pass
