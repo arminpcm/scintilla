@@ -79,7 +79,8 @@ RUN echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 COPY scripts/.prompt.sh /home/.prompt.sh
 COPY container/entrypoint.sh /home/entrypoint.sh
 
+RUN usermod -a -G video docker
 USER docker
-ENTRYPOINT ["/home/entrypoint.sh"]
+
 CMD ["/bin/bash"]
 WORKDIR /scintilla

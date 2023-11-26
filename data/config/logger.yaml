@@ -1,0 +1,17 @@
+# Base file name for recorded bags
+base_file_name: "robot_log_"
+log_directory: "data/logs/"
+
+# List of topics to be recorded
+recorded_topics:
+  - "/camera/image"
+  - "/sensor/data"
+
+# Frequency at which topics are recorded (in Hz)
+topic_frequency: 1.0
+
+# Queue length for the ROS topic
+topic_queue_length: 10
+
+# ROS topic for user description
+description_topic: "/user_description"

@@ -59,3 +59,11 @@ Now launch the ros2 nodes:
 ```
 ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
 ```
+
+# Things I need to do:
+1. Add modules to python path:
+```
+export PYTHONPATH=$PYTHONPATH:$SCINTILLA_ROOT/modules
+```
+2. Add SCINTILLA_ROOT to the docker
+3. Make sure logs are captured in the right place
