@@ -71,5 +71,6 @@ COPY container/entrypoint.sh /home/entrypoint.sh
 
 RUN usermod -a -G video docker
 USER docker
+
 CMD ["/bin/bash"]
 WORKDIR /scintilla

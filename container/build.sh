@@ -12,7 +12,7 @@
 ################################################################################
 
 source container/settings.sh
-source scripts/common_functions.sh
+source $SCINTILLA_ROOT/scripts/common_functions.sh
 print_header
 
 # Check args

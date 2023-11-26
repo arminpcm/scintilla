@@ -1,0 +1,73 @@
+# Base file name for recorded bags
+base_file_name: "robot_log"
+log_directory: "data/logs/"
+
+# List of topics to be recorded
+recorded_topics:
+  - "/camera/image"
+  - "/sensor/data"
+  - "/diagnostics"
+  - "/rosout"
+  - "/tf"
+  - "/tf_static"
+  - "/zed/joint_states"
+  - "/zed/plane"
+  - "/zed/plane_marker"
+  - "/zed/robot_description"
+  - "/zed/zed_node/atm_press"
+  - "/zed/zed_node/confidence/confidence_map"
+  - "/zed/zed_node/depth/camera_info"
+  - "/zed/zed_node/depth/depth_info"
+  - "/zed/zed_node/depth/depth_registered"
+  - "/zed/zed_node/disparity/disparity_image"
+  - "/zed/zed_node/imu/data"
+  - "/zed/zed_node/imu/data_raw"
+  - "/zed/zed_node/imu/mag"
+  - "/zed/zed_node/left/camera_info"
+  - "/zed/zed_node/left/image_rect_color"
+  - "/zed/zed_node/left_cam_imu_transform"
+  - "/zed/zed_node/left_gray/camera_info"
+  - "/zed/zed_node/left_gray/image_rect_gray"
+  - "/zed/zed_node/left_raw/camera_info"
+  - "/zed/zed_node/left_raw/image_raw_color"
+  - "/zed/zed_node/left_raw_gray/camera_info"
+  - "/zed/zed_node/left_raw_gray/image_raw_gray"
+  - "/zed/zed_node/odom"
+  - "/zed/zed_node/odom/status"
+  - "/zed/zed_node/path_map"
+  - "/zed/zed_node/path_odom"
+  - "/zed/zed_node/point_cloud/cloud_registered"
+  - "/zed/zed_node/pose"
+  - "/zed/zed_node/pose/status"
+  - "/zed/zed_node/pose_with_covariance"
+  - "/zed/zed_node/rgb/camera_info"
+  - "/zed/zed_node/rgb/image_rect_color"
+  - "/zed/zed_node/rgb_gray/camera_info"
+  - "/zed/zed_node/rgb_gray/image_rect_gray"
+  - "/zed/zed_node/rgb_raw/camera_info"
+  - "/zed/zed_node/rgb_raw/image_raw_color"
+  - "/zed/zed_node/rgb_raw_gray/camera_info"
+  - "/zed/zed_node/rgb_raw_gray/image_raw_gray"
+  - "/zed/zed_node/right/camera_info"
+  - "/zed/zed_node/right/image_rect_color"
+  - "/zed/zed_node/right_gray/camera_info"
+  - "/zed/zed_node/right_gray/image_rect_gray"
+  - "/zed/zed_node/right_raw/camera_info"
+  - "/zed/zed_node/right_raw/image_raw_color"
+  - "/zed/zed_node/right_raw_gray/camera_info"
+  - "/zed/zed_node/right_raw_gray/image_raw_gray"
+  - "/zed/zed_node/stereo/image_rect_color"
+  - "/zed/zed_node/stereo_raw/image_raw_color"
+  - "/zed/zed_node/temperature/imu"
+  - "/zed/zed_node/temperature/left"
+  - "/zed/zed_node/temperature/right"
+
+
+# Frequency at which topics are recorded (in Hz)
+topic_frequency: 1.0
+
+# Queue length for the ROS topic
+topic_queue_length: 10
+
+# ROS topic for user description
+description_topic: "/user_description"
