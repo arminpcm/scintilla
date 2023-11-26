@@ -8,6 +8,7 @@ Start with setting up your host compuer. Currently, we are supporting Ubuntu 22.
 ```
 cd scripts
 sudo ./container/dev_setup.sh
+source ~/.bashrc
 ```
 
 To ensure emulation is working, try the following command:
@@ -17,11 +18,18 @@ docker run --rm --platform=linux/arm64 -t arm64v8/ubuntu uname -m
 
 This should print `aarch64` on the terminal.
 
+For ease of use, you can source `scripts/aliases.sh` in your bashrc file:
+```
+source $SCINTILLA_ROOT/scripts/aliases.sh
+source ~/.bashrc
+```
+
 ### Build docker image
 
 ```
 ./container/build.sh <platform>
 # Platform can be either arm or x86
+# Or use `build` or `builda` that is set using aliases
 ```
 
 Note: Currently, L4T docker is supported through QEMU. Also x86 docker image is based on Cuda12 and Ubuntu 22.04.
@@ -40,3 +48,14 @@ You will have multiple scripts at your disposal to start, stop, and dive into an
 ./container/stop <platform>
 ```
 
+### Building ROS2 package for Stereo Zed
+
+```
+./scripts/build_zed_wrapper.sh
+source ~/.bashrc
+```
+
+Now launch the ros2 nodes:
+```
+ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
+```

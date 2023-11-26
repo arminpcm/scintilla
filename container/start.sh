@@ -31,17 +31,18 @@ platform="$1"
 
 set_container_variables $platform
 
-SCINTILLA_ROOT=''
-get_script_parent_directory SCINTILLA_ROOT
-
 if [ "${platform}" == "arm" ]; then
     info "Starting ARM docker..."
     docker run \
                 --gpus all \
                 --privileged \
+                -v /dev/bus/usb:/dev/bus/usb \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
-                -v ${SCINTILLA_ROOT}:/sintilla \
+                -v ${SCINTILLA_ROOT}:/scintilla \
+                --runtime nvidia \
+                -e DISPLAY \
+                -v /tmp/.X11-unix/:/tmp/.X11-unix \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 elif [ "${platform}" == "x86" ]; then
@@ -49,12 +50,18 @@ elif [ "${platform}" == "x86" ]; then
     docker run \
                 --gpus all \
                 --privileged \
+                -v /dev/bus/usb:/dev/bus/usb \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
-                -v ${SCINTILLA_ROOT}:/sintilla \
+                -v ${SCINTILLA_ROOT}:/scintilla \
+                --runtime nvidia \
+                -e DISPLAY \
+                -v /tmp/.X11-unix/:/tmp/.X11-unix \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 else
     error "Unsupported platform. Only 'arm' and 'x86' are supported."
     exit 1
 fi
+
+docker exec ${CONTAINER_NAME} bash -c '/home/entrypoint.sh'
