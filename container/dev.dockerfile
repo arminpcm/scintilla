@@ -61,6 +61,15 @@ RUN apt update -y && apt install -y unzip && \
     unzip zed-ros2-wrapper.zip -d ros2_ws/src/zed-ros2-wrapper && \
     rm zed-ros2-wrapper.zip
 
+# Install development tools
+RUN pip3 install dash \
+                 plotly \
+                 pandas \
+                 pyarrow \
+                 dash-bootstrap-components \
+                 mcap \
+                 open3d
+
 # Create a user named "docker" without a password
 RUN useradd -m docker
 # Allow the "docker" user to use sudo without a password

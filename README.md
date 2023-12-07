@@ -60,3 +60,11 @@ Now launch the ros2 nodes:
 source /opt/ros/iron/setup.bash
 ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
 ```
+
+
+## Working with data pipeline
+Starting airflow
+```
+airflow standalone
+# Visit localhost:8080
+```

@@ -93,7 +93,7 @@ def record_topics(config: Dict[str, Union[str, List[str], float, int]], conditio
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         root_dir = Path(get_environment_variable("SCINTILLA_ROOT"))
 
-        mcap_file = root_dir / log_directory / f"{base_file_name}_{timestamp}.mcap"
+        mcap_file = root_dir / log_directory / f"{base_file_name}_{timestamp}"
 
         topics = config.get('recorded_topics', [])
         if not topics:

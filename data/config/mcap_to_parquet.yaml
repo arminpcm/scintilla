@@ -1,19 +1,12 @@
-# Base file name for recorded bags
-base_file_name: 'robot_log'
-log_directory: 'data/logs/collected/'
+output_directory: 'data/logs/extracted/'
+namespace_delimeter: '+'
+convertors: 'data/config/convertors.yaml'
 
-# List of topics to be recorded
-recorded_topics:
-  - '/camera/image'
-  - '/sensor/data'
+# List of topics to be converted
+extracted_topics:
   - '/diagnostics'
-  - '/rosout'
   - '/tf'
   - '/tf_static'
-  - '/zed/joint_states'
-  - '/zed/plane'
-  - '/zed/plane_marker'
-  - '/zed/robot_description'
   - '/zed/zed_node/atm_press'
   - '/zed/zed_node/confidence/confidence_map'
   - '/zed/zed_node/depth/camera_info'
@@ -62,13 +55,3 @@ recorded_topics:
   - '/zed/zed_node/temperature/left'
   - '/zed/zed_node/temperature/right'
   - '/user_description'
-
-
-# Frequency at which topics are recorded (in Hz)
-topic_frequency: 1.0
-
-# Queue length for the ROS topic
-topic_queue_length: 10
-
-# ROS topic for user description
-description_topic: '/user_description'
