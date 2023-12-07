@@ -50,6 +50,7 @@ elif [ "${platform}" == "x86" ]; then
     docker run \
                 --gpus all \
                 --privileged \
+                --memory=20g \
                 -v /dev/bus/usb:/dev/bus/usb \
                 --platform="${PLATFORM}" \
                 --hostname ${CONTAINER_NAME} \
@@ -57,6 +58,7 @@ elif [ "${platform}" == "x86" ]; then
                 --runtime nvidia \
                 -e DISPLAY \
                 -v /tmp/.X11-unix/:/tmp/.X11-unix \
+                --network host \
                 --name ${CONTAINER_NAME} \
                 -itd ${IMAGE_NAME}
 else

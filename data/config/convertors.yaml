@@ -1,0 +1,121 @@
+convertors:
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.MagneticFieldConvertor'
+    topics:
+      - '/zed/zed_node/imu/mag'
+    num_output_columns: 15
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.IMUConvertor'
+    topics:
+      - '/zed/zed_node/imu/data'
+      - '/zed/zed_node/imu/data_raw'
+    num_output_columns: 40
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.PoseConvertor'
+    topics:
+      - '/zed/zed_node/pose'
+    num_output_columns: 10
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.PathConvertor'
+    topics:
+      - '/zed/zed_node/path_odom'
+      - '/zed/zed_node/path_map'
+    num_output_columns: 13
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.OdometryConvertor'
+    topics:
+      - '/zed/zed_node/odom'
+    num_output_columns: 89
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.CameraInfoConvertor'
+    topics:
+      - '/zed/zed_node/right_gray/camera_info'
+      - '/zed/zed_node/left_raw/camera_info'
+      - '/zed/zed_node/left_raw_gray/camera_info'
+      - '/zed/zed_node/left_gray/camera_info'
+      - '/zed/zed_node/rgb_gray/camera_info'
+      - '/zed/zed_node/rgb_raw_gray/camera_info'
+      - '/zed/zed_node/left/camera_info'
+      - '/zed/zed_node/rgb/camera_info'
+      - '/zed/zed_node/right_raw/camera_info'
+      - '/zed/zed_node/right/camera_info'
+      - '/zed/zed_node/right_raw_gray/camera_info'
+      - '/zed/zed_node/depth/camera_info'
+      - '/zed/zed_node/rgb_raw/camera_info'
+    num_output_columns: 53
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.TransformStampedConvertor'
+    topics:
+      - '/zed/zed_node/left_cam_imu_transform'
+    num_output_columns: 11
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.PosTrackStatusConvertor'
+    topics:
+      - '/zed/zed_node/odom/status'
+      - '/zed/zed_node/pose/status'
+    num_output_columns: 1
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.MarkerConvertor'
+    topics:
+      - '/zed/plane_marker'
+    num_output_columns: 30
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.TFMessageConvertor'
+    topics:
+      - '/tf_static'
+      - '/tf'
+    num_output_columns: 11
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.DepthInfoStampedConvertor'
+    topics:
+      - '/zed/zed_node/depth/depth_info'
+    num_output_columns: 5
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.FluidPressureConvertor'
+    topics:
+      - '/zed/zed_node/atm_press'
+    num_output_columns: 5
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.PoseWithCovarianceStampedConvertor'
+    topics:
+      - '/zed/zed_node/pose_with_covariance'
+    num_output_columns: 46
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.TemperatureConvertor'
+    topics:
+      - '/zed/zed_node/temperature/imu'
+      - '/zed/zed_node/temperature/left'
+      - '/zed/zed_node/temperature/right'
+    num_output_columns: 5
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.DiagnosticArrayConvertor'
+    topics:
+      - '/diagnostics'
+    num_output_columns: 9
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.StringConvertor'
+    topics:
+      - '/zed/robot_description'
+      - '/user_description'
+    num_output_columns: 9
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.LogConvertor'
+    topics:
+      - '/rosout'
+    num_output_columns: 8
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.PlaneStampedConvertor'
+    topics:
+      - '/zed/plane'
+    num_output_columns: 25
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.ImageConvertor'
+    topics:
+      - '/zed/zed_node/confidence/confidence_map'
+      - '/zed/zed_node/left_raw/image_raw_color'
+      - '/zed/zed_node/left/image_rect_color'
+      - '/zed/zed_node/left_gray/image_rect_gray'
+      - '/zed/zed_node/rgb/image_rect_color'
+      - '/zed/zed_node/stereo/image_rect_color'
+      - '/zed/zed_node/right_raw_gray/image_raw_gray'
+      - '/zed/zed_node/rgb_gray/image_rect_gray'
+      - '/zed/zed_node/rgb_raw/image_raw_color'
+      - '/zed/zed_node/rgb_raw_gray/image_raw_gray'
+      - '/zed/zed_node/right_gray/image_rect_gray'
+      - '/zed/zed_node/stereo_raw/image_raw_color'
+      - '/zed/zed_node/depth/depth_registered'
+      - '/zed/zed_node/right_raw/image_raw_color'
+      - '/zed/zed_node/left_raw_gray/image_raw_gray'
+      - '/zed/zed_node/right/image_rect_color'
+    num_output_columns: 8
+
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.DisparityImageConvertor'
+    topics:
+      - '/zed/zed_node/disparity/disparity_image'
+    num_output_columns: 21
+    num_image_columns: 8
+  - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.PointCloudConvertor'
+    topics:
+      - '/zed/zed_node/point_cloud/cloud_registered'
+    num_output_columns: 8

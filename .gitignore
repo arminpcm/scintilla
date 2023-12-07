@@ -3,3 +3,8 @@
 
 # Ignore .mcap files
 *.mcap
+
+# Ignore airflow folder
+data/airflow/*
+data/logs/collected/*
+data/logs/extracted/*
