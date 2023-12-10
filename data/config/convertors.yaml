@@ -81,7 +81,7 @@ convertors:
     topics:
       - '/zed/robot_description'
       - '/user_description'
-    num_output_columns: 9
+    num_output_columns: 1
   - name: 'data_pipeline.extractors.convertors.user_defined.ros_convertor.LogConvertor'
     topics:
       - '/rosout'

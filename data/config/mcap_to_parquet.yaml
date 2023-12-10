@@ -1,5 +1,8 @@
 output_directory: 'data/logs/extracted/'
 namespace_delimeter: '+'
+
+manifest_parquet: 'data/logs/extracted/manifest.parquet'
+
 convertors: 'data/config/convertors.yaml'
 
 # List of topics to be converted
