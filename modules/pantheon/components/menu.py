@@ -1,7 +1,6 @@
-from dash import html
-import dash_core_components as dcc
+from dash import html, dcc
 
-PANTHEON_LOGO = "../assets/icons/pantheon.png"
+PANTHEON_LOGO = "../assets/icons/pantheonlogo.png"
 
 search_bar = html.Div(
     [
@@ -16,11 +15,17 @@ menu = html.Div(
     [
         html.Div(
             [
-                html.Img(src=PANTHEON_LOGO, height="45px", style={'paddingLeft': '10px'}),
+                html.Img(src=PANTHEON_LOGO, height="30px", style={'paddingLeft': '10px'}),
             ],
             className="logo-row",
         ),
         search_bar,
+        dcc.Link([
+            html.Img(src="../assets/icons/user.svg", className="menu-icon"),
+        ], href="/user", className="menu-item"),
+        dcc.Link([
+            html.Img(src="../assets/icons/setting.svg", className="menu-icon"),
+        ], href="/settings", className="menu-item"),    
     ],
     className="custom-menu",
     style={'textAlign': 'center'},  # Center the menu content

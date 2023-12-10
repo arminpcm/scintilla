@@ -3,14 +3,18 @@ from dash import html, dcc
 # Define the sidebar component with icons
 sidebar = html.Div([
     dcc.Link([
-        html.Img(src="../assets/icons/dashboard.png", className="icon-image"),
-    ], href="/dashboard", className="sidebar-item"),
+        html.Img(src="../assets/icons/activity.svg", className="sidebar-icon"),
+    ], href="/activity", className="sidebar-item"),
     dcc.Link([
-        html.Img(src="../assets/icons/search.png", className="icon-image"),
-    ], href="/search", className="sidebar-item"),
+        html.Img(src="../assets/icons/event.svg", className="sidebar-icon"),
+    ], href="/events", className="sidebar-item"),
     dcc.Link([
-        html.Img(src="../assets/icons/settings.png", className="icon-image"),
-    ], href="/settings", className="sidebar-item"),
-    html.Hr(),  # Horizontal line for separation
-    # Add additional sidebar items as needed
+        html.Img(src="../assets/icons/log.svg", className="sidebar-icon"),
+    ], href="/logs", className="sidebar-item"),
+    dcc.Link([
+        html.Img(src="../assets/icons/map.svg", className="sidebar-icon"),
+    ], href="/maps", className="sidebar-item"),
+    dcc.Link([
+        html.Img(src="../assets/icons/dataset.svg", className="sidebar-icon"),
+    ], href="/datasets", className="sidebar-item"),
 ], className="sidebar")

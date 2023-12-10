@@ -33,12 +33,16 @@ app.layout = html.Div([
     [Input('url', 'pathname')]
 )
 def update_tab(pathname):
-    if pathname == '/dashboard':
-        return html.Div("Dashboard Page")
-    elif pathname == '/search':
-        return html.Div("Search Page")
-    elif pathname == '/settings':
-        return html.Div("Settings Page")
+    if pathname == '/activity':
+        return html.Div("Activity Page")
+    elif pathname == '/events':
+        return html.Div("Events Page")
+    elif pathname == '/logs':
+        return html.Div("Logs Page")
+    elif pathname == '/maps':
+        return html.Div("Maps Page")
+    elif pathname == '/datasets':
+        return html.Div("Datasets Page")
     else:
         return "Page not found"
 
