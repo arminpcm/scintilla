@@ -48,6 +48,11 @@ $SCINTILLA_ROOT/container/into <platform>
 $SCINTILLA_ROOT/container/stop <platform>
 ```
 
+Starting the database containers
+```
+docker-compose up -d
+```
+
 ### Building ROS2 package for Stereo Zed
 
 ```
@@ -61,6 +66,13 @@ source /opt/ros/iron/setup.bash
 ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
 ```
 
+
+### Using the data pipeline
+
+## Data Extraction
+```
+python3 modules/data_pipeline/extractors/mcap_to_parquet.py data/logs/collected/robot_log_20231126_204614/robot_log_20231126_204614.mcap 
+```
 
 ## Working with data pipeline
 Starting airflow

@@ -12,6 +12,8 @@ import argparse
 import yaml
 from common.oslibs import info
 from typing import Dict, Union, List, Any, Tuple
+from pathlib import Path
+from datetime import datetime
 import os
 import shutil
 import open3d as o3d
@@ -116,6 +118,29 @@ def create_topic_directories(output_directory, topics) -> None:
         os.makedirs(topic_directory, exist_ok=True)
 
 
+def check_and_update_parquet(parquet_file, log_name, yaml_file):
+    # Check if Parquet file exists
+    try:
+        df = pd.read_parquet(parquet_file)
+    except FileNotFoundError:
+        # If the Parquet file doesn't exist, create a new DataFrame
+        df = pd.DataFrame(columns=['timestamp', 'log_name', 'start_time', 'duration'])
+
+    # Check if the log name exists in the log name column
+    if log_name not in df['log_name'].values:
+        # If not, add a new row with current timestamp, log name, and flattened fields from YAML
+        timestamp = datetime.now()
+        with open(yaml_file, 'r') as f:
+            yaml_data = yaml.safe_load(f)
+
+        start_time = yaml_data['rosbag2_bagfile_information']['starting_time']['nanoseconds_since_epoch']
+        duration = yaml_data['rosbag2_bagfile_information']['duration']['nanoseconds']
+        new_row = {'timestamp': timestamp, 'log_name': log_name, 'start_time': start_time, 'duration': duration}
+        df = pd.concat([df, pd.DataFrame([new_row], columns=['timestamp', 'log_name', 'start_time', 'duration'])], ignore_index=True)
+
+        # Write the updated DataFrame to the Parquet file
+        df.to_parquet(parquet_file)
+
 
 def save_as_parquet(topic, metadata, converted_message, output_directory):
     topic_directory = os.path.join(output_directory, topic.lstrip('/').replace('/', os.path.sep))
@@ -201,5 +226,8 @@ if __name__ == "__main__":
 
         else:
             info(f'No extractors are provided for {topic}:{msg_type}')
-    
 
+    # Update info on extracted data
+    manifest_path = config.get('manifest_parquet')
+    yaml_file = Path(args.mcap).parent / 'metadata.yaml'
+    check_and_update_parquet(manifest_path, log_name, yaml_file)

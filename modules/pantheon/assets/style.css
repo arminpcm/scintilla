@@ -1,0 +1,119 @@
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    filter: brightness(100%);
+    transition: filter 0.3s;
+}
+
+.sidebar {
+    height: 100vh;
+    padding-top: 0px;
+    width: 40px;
+    background-color: rgba(22, 63, 83, 0.85);
+    position: fixed;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 1px solid #9a9a9a;
+}
+
+/* Hover effect for icons */
+.sidebar-item:hover .sidebar-icon {
+    filter: brightness(70%);
+}
+
+.sidebar-item:hover {
+    background-color: #8da1b3;
+}
+
+#pages {
+    flex: 1;
+    padding-left: 50px;
+    padding-top: 5px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.custom-menu {
+    background-color: rgba(22, 63, 83, 0.85);
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-row {
+    display: flex;
+    align-items: center;
+}
+
+.brand {
+    margin-left: 10px;
+    font-size: 1.5rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-box {
+    padding: 5px;
+    margin-right: 10px;
+    border: 1px solid #8da1b3;
+    border-radius: 5px;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.search-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3e4144;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:active {
+    background-color: #8da1b3;
+}
+
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    filter: brightness(100%);
+    transition: filter 0.3s;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-left: 1px solid #9a9a9a;
+}
+
+/* Hover effect for icons */
+.menu-item:hover .menu-icon {
+    filter: brightness(70%);
+}
+
+.menu-item:hover {
+    background-color: #8da1b3;
+}
