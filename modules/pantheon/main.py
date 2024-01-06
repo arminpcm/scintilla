@@ -1,19 +1,17 @@
-import dash
 from dash import html
 from dash.dependencies import Input, Output
 from dash import dcc
 
-import dash_bootstrap_components as dbc  # Import Dash Bootstrap Components
+from modules.pantheon.app import dash_app as app
+from modules.pantheon.components.sidebar import sidebar
+from modules.pantheon.components.menu import menu
+from modules.pantheon.components.pages.activity import layout as activity_layout
 
-from components.sidebar import sidebar
-from components.menu import menu
-from components.pages import pages
 
-# Choose a dark blue theme
-external_stylesheets = [dbc.themes.SLATE]  # Change to your preferred theme
+pages = html.Div([
+    html.Div(id='canvas-content')
+], className="canvas")  # Move the entire div to the left
 
-# Initialize the Dash app with the chosen theme and Bootstrap CSS
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, *external_stylesheets])
 
 # Define the layout of the app
 app.layout = html.Div([
@@ -27,14 +25,14 @@ app.layout = html.Div([
     ]),
 ])
 
-# Callback to update the tab content dynamically
+# Callback to update the canvas content dynamically
 @app.callback(
-    Output('tab-content', 'children'),
+    Output('canvas-content', 'children'),
     [Input('url', 'pathname')]
 )
-def update_tab(pathname):
+def change_page(pathname):
     if pathname == '/activity':
-        return html.Div("Activity Page")
+        return activity_layout
     elif pathname == '/events':
         return html.Div("Events Page")
     elif pathname == '/logs':

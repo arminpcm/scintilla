@@ -48,6 +48,11 @@ $SCINTILLA_ROOT/container/into <platform>
 $SCINTILLA_ROOT/container/stop <platform>
 ```
 
+Starting the database containers
+```
+docker-compose up -d
+```
+
 ### Building ROS2 package for Stereo Zed
 
 ```

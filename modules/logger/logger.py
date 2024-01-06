@@ -88,12 +88,12 @@ def record_topics(config: Dict[str, Union[str, List[str], float, int]], conditio
     """
     with condition:
         # Configure the log file name
-        base_file_name = config.get('base_file_name', 'output')
+        robot_name = config.get('robot_name', 'output')
         log_directory = config.get('log_directory', 'output')
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         root_dir = Path(get_environment_variable("SCINTILLA_ROOT"))
 
-        mcap_file = root_dir / log_directory / f"{base_file_name}_{timestamp}"
+        mcap_file = root_dir / log_directory / f"{robot_name}_{timestamp}"
 
         topics = config.get('recorded_topics', [])
         if not topics:
@@ -168,7 +168,7 @@ def check_config(config: Dict[str, Union[str, List[str], float, int]]) -> bool:
     Returns:
         bool: True if all required arguments are present, False otherwise.
     """
-    required_keys = ['base_file_name', 'log_directory', 'recorded_topics', 'topic_frequency', 'topic_queue_length', 'description_topic']
+    required_keys = ['robot_name', 'log_directory', 'recorded_topics', 'topic_frequency', 'topic_queue_length', 'description_topic']
 
     for key in required_keys:
         if key not in config:

@@ -66,4 +66,4 @@ else
     exit 1
 fi
 
-docker exec ${CONTAINER_NAME} bash -c '/home/entrypoint.sh'
+docker exec ${CONTAINER_NAME} bash -c '/scintilla/container/entrypoint.sh'

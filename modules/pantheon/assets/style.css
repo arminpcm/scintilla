@@ -70,7 +70,7 @@ body {
 .search-box {
     padding: 5px;
     margin-right: 10px;
-    border: 1px solid white;
+    border: 1px solid #8da1b3;
     border-radius: 5px;
     background-color: #1a1a1a;
     color: white;
@@ -87,7 +87,7 @@ body {
 }
 
 .search-button:active {
-    background-color: #1a1a1a;
+    background-color: #8da1b3;
 }
 
 .menu-icon {
